@@ -1,0 +1,3 @@
+[submodule "metaaldetectievondsten"]
+	path = metaaldetectievondsten
+	url = https://github.com/OnroerendErfgoed/metaaldetectievondsten.git
