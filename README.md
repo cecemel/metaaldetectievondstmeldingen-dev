@@ -1,6 +1,6 @@
-# metaaldetectievondsten-dev
+# metaaldetectievondstmeldingen-dev
 
-## deployment of dev environment for the 'metaaldetectievondsten' app
+## deployment of dev environment for the 'metaaldetectievondstmeldingen' app
 
 ### build instructions
 
@@ -18,15 +18,15 @@
 #### general setup
 ```
 git clone --recursive ...
-cd metaaldetectievondsten-dev
-mkvirtualenv metaaldetectievondsten-dev3.5 --python=python3.5
+cd metaaldetectievondstmeldingen-dev
+mkvirtualenv metaaldetectievondstmeldingen-dev3.5 --python=python3.5
 pip install -r requirements.txt
 ```
 
 #### building the frontend
 ```
-# assumes you are in metaaldetectievondsten-dev
-cd metaaldetectievondsten/metaaldetectievondsten/static
+# assumes you are in metaaldetectievondstmeldingen-dev
+cd metaaldetectievondstmeldingen/metaaldetectievondstmeldingen/static
 npm install; bower install;
 cd admin;
 npm install; bower install;
@@ -36,7 +36,7 @@ npm install; bower install;
 ```
 # assumes you are in your virtual env
 docker-compose stop; docker-compose rm -f; #not required, but cleans your working environment
-# assumes you are in metaaldetectievondsten-dev
+# assumes you are in metaaldetectievondstmeldingen-dev
 python build_images.py;
 python migrate_dbs.py;
 python init_data.py;

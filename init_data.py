@@ -3,11 +3,11 @@ import migrate_dbs
 
 ELASTIC_INITS_FOLDER = "data-inits"
 DOCKER_FILE = "Dockerfile-data-init"
-DOCKER_REPO = "adviezen-dev"
+DOCKER_REPO = "metaaldetectievondstmeldingen-dev"
 ELASTIC_IMAGE = "geosolutions/elasticsearch-plugins"
-ELASTIC_CONTAINER_NAME = "adviezen-elastic-init"
+ELASTIC_CONTAINER_NAME = "metaaldetectievondstmeldingen-elastic-init"
 ELASTIC_DATA = "$(pwd)/data/elastic"
-STORAGE_PROVIDER_IMAGE = "adviezen-dev/storageprovider:latest"
+STORAGE_PROVIDER_IMAGE = "metaaldetectievondstmeldingen-dev/storageprovider:latest"
 STORAGE_PROVIDER_CONTAINER_NAME = "storageprovider-init"
 STORAGE_PROVIDER_DATA = "$(pwd)/data/storageprovider"
 STORAGE_PROVIDER_DATA_MAP = "{}:/adviezen_store".format(STORAGE_PROVIDER_DATA)
@@ -57,8 +57,8 @@ def start_elastic():
 
 def run_elastic_init():
     try:
-        start_storage_provider()
-        start_elastic()
+        #start_storage_provider()
+        #start_elastic()
         migrate_dbs.start_db()
 
         print('elastic ready, moving on...')
@@ -89,9 +89,10 @@ def run_elastic_init():
                 _exec_command("docker build -f {} -t {} .".format(DOCKER_FILE, docker_image_repo))
 
                 print("fire container and run migration")
-                run_command = "docker run --link {}:elastic --link {}:postgres  --link {}:storageprovider "\
-                    .format(ELASTIC_CONTAINER_NAME, migrate_dbs.DATABASE_CONTAINER_NAME,
-                            STORAGE_PROVIDER_CONTAINER_NAME)
+                #run_command = "docker run --link {}:elastic --link {}:postgres  --link {}:storageprovider "\
+                #    .format(ELASTIC_CONTAINER_NAME, migrate_dbs.DATABASE_CONTAINER_NAME,
+                #            STORAGE_PROVIDER_CONTAINER_NAME)
+                run_command = "docker run --link {}:postgres ".format(migrate_dbs.DATABASE_CONTAINER_NAME)
                 run_command += "{}".format(docker_image_repo)
                 _exec_command(run_command)
 
@@ -103,8 +104,8 @@ def run_elastic_init():
                 os.chdir(current_path)
 
     finally:
-        stop_and_clean_elastic_container()
-        stop_and_clean_storage_provider_container()
+        #stop_and_clean_elastic_container()
+        #stop_and_clean_storage_provider_container()
         migrate_dbs.stop_and_clean_db_container()
 
 

@@ -1,7 +1,7 @@
 version: "2"
 services:
-  metaaldetectievondsten-db:
-    image: metaaldetectievondsten-dev/postgres:latest
+  metaaldetectievondstmeldingen-db:
+    image: metaaldetectievondstmeldingen-dev/postgres:latest
     environment:
       - "POSTGRES_PASSWORD=postgres"
       - "POSTGRES_USER=postgres"
@@ -9,46 +9,46 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-#  metaaldetectievondsten-elastic:
+#  metaaldetectievondstmeldingen-elastic:
 #    image: geosolutions/elasticsearch-plugins
 #    ports:
 #      - "9200:9200"
 #    volumes:
 #      - ./data/elastic:/usr/share/elasticsearch/data
-  metaaldetectievondsten-redis:
+  metaaldetectievondstmeldingen-redis:
     image: redis
     ports:
       - "6379:6379"
-#  metaaldetectievondsten-storage-provider:
-#    image: metaaldetectievondsten-dev/storageprovider:latest
+#  metaaldetectievondstmeldingen-storage-provider:
+#    image: metaaldetectievondstmeldingen-dev/storageprovider:latest
 #    ports:
 #     - "6544:6544"
 #    volumes:
-#     - ./data/storageprovider:/metaaldetectievondsten_store
-#  metaaldetectievondsten-rqworker:
-#    image: metaaldetectievondsten-dev/metaaldetectievondsten:latest
+#     - ./data/storageprovider:/metaaldetectievondstmeldingen_store
+#  metaaldetectievondstmeldingen-rqworker:
+#    image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
 #    links:
-#     - metaaldetectievondsten-elastic:elastic
-#     - metaaldetectievondsten-db:postgres
-#     - metaaldetectievondsten-storage-provider:storageprovider
-#     - metaaldetectievondsten-redis:redis
-#    command: rqworker --host redis metaaldetectievondsten_es_indexer
-  metaaldetectievondsten-app:
-    image: metaaldetectievondsten-dev/metaaldetectievondsten:latest
+#     - metaaldetectievondstmeldingen-elastic:elastic
+#     - metaaldetectievondstmeldingen-db:postgres
+#     - metaaldetectievondstmeldingen-storage-provider:storageprovider
+#     - metaaldetectievondstmeldingen-redis:redis
+#    command: rqworker --host redis metaaldetectievondstmeldingen_es_indexer
+  metaaldetectievondstmeldingen-app:
+    image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
     ports:
      - "6543:6543"
     volumes:
-     - ./metaaldetectievondsten/metaaldetectievondsten:/app/metaaldetectievondsten
-     - ./metaaldetectievondsten/alembic:/app/alembic
-     - ./metaaldetectievondsten/deploy:/app/deploy
-     - ./metaaldetectievondsten/tests:/app/tests
-     - ./metaaldetectievondsten/docs:/app/docs
-     - ./metaaldetectievondsten/alembic.ini:/app/alembic.ini
-     - ./metaaldetectievondsten/production.ini:/app/production.ini
-     - ./metaaldetectievondsten/development.ini:/app/development.ini
+     - ./metaaldetectievondstmeldingen/metaaldetectievondstmeldingen:/app/metaaldetectievondstmeldingen
+     - ./metaaldetectievondstmeldingen/alembic:/app/alembic
+     - ./metaaldetectievondstmeldingen/deploy:/app/deploy
+     - ./metaaldetectievondstmeldingen/tests:/app/tests
+     - ./metaaldetectievondstmeldingen/docs:/app/docs
+     - ./metaaldetectievondstmeldingen/alembic.ini:/app/alembic.ini
+     - ./metaaldetectievondstmeldingen/production.ini:/app/production.ini
+#     - ./metaaldetectievondstmeldingen/development.ini:/app/development.ini
     links:
-#     - metaaldetectievondsten-elastic:elastic
-     - metaaldetectievondsten-db:postgres
-#     - metaaldetectievondsten-storage-provider:storageprovider
-     - metaaldetectievondsten-redis:redis
+#     - metaaldetectievondstmeldingen-elastic:elastic
+     - metaaldetectievondstmeldingen-db:postgres
+#     - metaaldetectievondstmeldingen-storage-provider:storageprovider
+     - metaaldetectievondstmeldingen-redis:redis
 

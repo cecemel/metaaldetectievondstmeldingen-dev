@@ -4,15 +4,15 @@ set -e
 
 # Perform all actions as $POSTGRES_USER
 export PGUSER="$POSTGRES_USER"
-export POSTGRES_DB="metaaldetectievondsten"
+export POSTGRES_DB="metaaldetectievondstmeldingen"
 
 #create projects-db for projects_service
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE DATABASE $POSTGRES_DB;
     GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;
-    CREATE ROLE metaaldetectievondsten_dml;
+    CREATE ROLE metaaldetectievondstmeldingen_dml;
     CREATE ROLE pgvioe;
-    CREATE ROLE metaaldetectievondsten_ddl;
+    CREATE ROLE metaaldetectievondstmeldingen_ddl;
     CREATE ROLE vioedba;
 EOSQL
 
@@ -28,7 +28,7 @@ EOSQL
 done
 
 # create test DB
-export POSTGRES_DB="metaaldetectievondsten_test"
+export POSTGRES_DB="metaaldetectievondstmeldingen_test"
 
 #create projects-db for projects_service
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL

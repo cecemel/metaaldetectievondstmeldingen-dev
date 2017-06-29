@@ -2,7 +2,7 @@ import os, shutil, subprocess, sys
 
 POSTGRES_FOLDER = "postgres"
 DEVELOPMENT_PRIVATE_FILES_FOLDER = "docker-files"
-DOCKER_REPO = "metaaldetectievondsten-dev"
+DOCKER_REPO = "metaaldetectievondstmeldingen-dev"
 DOCKER_FILE = "Dockerfile"
 
 

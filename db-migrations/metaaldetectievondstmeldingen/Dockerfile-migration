@@ -1,4 +1,4 @@
-FROM metaaldetectievondsten-dev/metaaldetectievondsten:latest
+FROM metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
 RUN apt-get install -y postgresql-client
 
 COPY ./alembic-custom.ini /app/
