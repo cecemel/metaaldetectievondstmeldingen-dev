@@ -1,4 +1,4 @@
-import os, shutil, time, requests
+import os, shutil
 import migrate_dbs
 
 ELASTIC_INITS_FOLDER = "data-inits"
@@ -13,46 +13,46 @@ STORAGE_PROVIDER_DATA = "$(pwd)/data/storageprovider"
 STORAGE_PROVIDER_DATA_MAP = "{}:/adviezen_store".format(STORAGE_PROVIDER_DATA)
 
 
-def start_storage_provider():
-    try:
-        stop_and_clean_storage_provider_container()
-    except:
-        print("issue cleaning docker images, let's proceed and see...")
+# def start_storage_provider():
+#     try:
+#         stop_and_clean_storage_provider_container()
+#     except:
+#         print("issue cleaning docker images, let's proceed and see...")
+#
+#     _exec_command("mkdir -p {}".format(STORAGE_PROVIDER_DATA))
+#     _exec_command("docker run -p '6544:6544' --name {} -v {} {}&"
+#                   .format(STORAGE_PROVIDER_CONTAINER_NAME, STORAGE_PROVIDER_DATA_MAP, STORAGE_PROVIDER_IMAGE))
+#
+#     max_attempts = 20
+#     attempts = 0
+#     while not _is_storage_provider_ready() or attempts > max_attempts:
+#         print("storage provider not ready, waiting..")
+#         attempts += 1
+#         time.sleep(10)
+#
+#     if attempts > max_attempts:
+#         raise Exception("storage provider not ready giving up")
 
-    _exec_command("mkdir -p {}".format(STORAGE_PROVIDER_DATA))
-    _exec_command("docker run -p '6544:6544' --name {} -v {} {}&"
-                  .format(STORAGE_PROVIDER_CONTAINER_NAME, STORAGE_PROVIDER_DATA_MAP, STORAGE_PROVIDER_IMAGE))
 
-    max_attempts = 20
-    attempts = 0
-    while not _is_storage_provider_ready() or attempts > max_attempts:
-        print("storage provider not ready, waiting..")
-        attempts += 1
-        time.sleep(10)
-
-    if attempts > max_attempts:
-        raise Exception("storage provider not ready giving up")
-
-
-def start_elastic():
-    # make sure it starts clean
-    try:
-        stop_and_clean_elastic_container()
-    except:
-        print("issue cleaning docker images, let's proceed and see...")
-
-    _exec_command("docker run -p '9200:9200' --name {} -v {}:/usr/share/elasticsearch/data {} &".format(ELASTIC_CONTAINER_NAME,
-                                                                                ELASTIC_DATA,
-                                                                                ELASTIC_IMAGE))
-    max_attempts = 20
-    attempts = 0
-    while not _is_elastic_ready() or attempts > max_attempts:
-        print("elastic not ready, waiting..")
-        attempts += 1
-        time.sleep(10)
-
-    if attempts > max_attempts:
-        raise Exception("elastic not ready giving up")
+# def start_elastic():
+#     # make sure it starts clean
+#     try:
+#         stop_and_clean_elastic_container()
+#     except:
+#         print("issue cleaning docker images, let's proceed and see...")
+#
+#     _exec_command("docker run -p '9200:9200' --name {} -v {}:/usr/share/elasticsearch/data {} &".format(ELASTIC_CONTAINER_NAME,
+#                                                                                 ELASTIC_DATA,
+#                                                                                 ELASTIC_IMAGE))
+#     max_attempts = 20
+#     attempts = 0
+#     while not _is_elastic_ready() or attempts > max_attempts:
+#         print("elastic not ready, waiting..")
+#         attempts += 1
+#         time.sleep(10)
+#
+#     if attempts > max_attempts:
+#         raise Exception("elastic not ready giving up")
 
 
 def run_elastic_init():
@@ -118,24 +118,24 @@ def stop_and_clean_elastic_container():
     _exec_command("docker stop {}; docker rm {}".format(ELASTIC_CONTAINER_NAME, ELASTIC_CONTAINER_NAME))
 
 
-def _is_storage_provider_ready():
-    try:
-        response = requests.get('http://localhost:6544')
-        if response.status_code == 200:
-            return True
-    except:
-        print("Unable to connect to storage provider")
-    return False
-
-
-def _is_elastic_ready():
-    try:
-        response = requests.get('http://localhost:9200/_cluster/health?pretty=true').json()
-        if response['status'] == 'green' or response['status'] == 'yellow':
-            return True
-    except:
-        print("Unable to connect to elastic")
-    return False
+# def _is_storage_provider_ready():
+#     try:
+#         response = requests.get('http://localhost:6544')
+#         if response.status_code == 200:
+#             return True
+#     except:
+#         print("Unable to connect to storage provider")
+#     return False
+#
+#
+# def _is_elastic_ready():
+#     try:
+#         response = requests.get('http://localhost:9200/_cluster/health?pretty=true').json()
+#         if response['status'] == 'green' or response['status'] == 'yellow':
+#             return True
+#     except:
+#         print("Unable to connect to elastic")
+#     return False
 
 
 def _exec_command(command):

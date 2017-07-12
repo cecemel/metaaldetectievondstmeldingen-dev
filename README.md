@@ -8,11 +8,9 @@
 - connected with vpn lm1
 - osx/linux environment
 - docker installed
-- python, python virtualenv, python virtualenvwrapper installed
+- python installed
 - git
-- postgres on your system
 - your wildcards-private.ini files
-- npm and bower
 - pycharm enterprise edition
 
 #### general setup

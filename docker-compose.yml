@@ -9,30 +9,10 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-#  metaaldetectievondstmeldingen-elastic:
-#    image: geosolutions/elasticsearch-plugins
-#    ports:
-#      - "9200:9200"
-#    volumes:
-#      - ./data/elastic:/usr/share/elasticsearch/data
   metaaldetectievondstmeldingen-redis:
     image: redis
     ports:
       - "6379:6379"
-#  metaaldetectievondstmeldingen-storage-provider:
-#    image: metaaldetectievondstmeldingen-dev/storageprovider:latest
-#    ports:
-#     - "6544:6544"
-#    volumes:
-#     - ./data/storageprovider:/metaaldetectievondstmeldingen_store
-#  metaaldetectievondstmeldingen-rqworker:
-#    image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
-#    links:
-#     - metaaldetectievondstmeldingen-elastic:elastic
-#     - metaaldetectievondstmeldingen-db:postgres
-#     - metaaldetectievondstmeldingen-storage-provider:storageprovider
-#     - metaaldetectievondstmeldingen-redis:redis
-#    command: rqworker --host redis metaaldetectievondstmeldingen_es_indexer
   metaaldetectievondstmeldingen-app:
     image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
     ports:
@@ -45,10 +25,7 @@ services:
      - ./metaaldetectievondstmeldingen/docs:/app/docs
      - ./metaaldetectievondstmeldingen/alembic.ini:/app/alembic.ini
      - ./metaaldetectievondstmeldingen/production.ini:/app/production.ini
-#     - ./metaaldetectievondstmeldingen/development.ini:/app/development.ini
     links:
-#     - metaaldetectievondstmeldingen-elastic:elastic
      - metaaldetectievondstmeldingen-db:postgres
-#     - metaaldetectievondstmeldingen-storage-provider:storageprovider
      - metaaldetectievondstmeldingen-redis:redis
 

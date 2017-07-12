@@ -1,4 +1,4 @@
-import os, shutil, psycopg2, time
+import os, shutil, time
 
 MIGRATIONS_FOLDER = "db-migrations"
 ALEMBIC_FILE = "alembic-custom.ini"
@@ -22,15 +22,18 @@ def start_db():
     _exec_command("docker run -p '5432:5432' --name {} -v {}:/var/lib/postgresql/data {} &".format(DATABASE_CONTAINER_NAME,
                                                                         DATABASE_DATA,
                                                                         DATABASE_IMAGE))
-    max_attempts = 40
-    attempts = 0
-    while not _is_db_ready() or attempts > max_attempts:
-        print("db not ready, waiting..")
-        attempts += 1
-        time.sleep(10)
-
-    if attempts > max_attempts:
-        raise Exception("db not ready giving up")
+    print("wait for migration db to boot (10 secs)")
+    time.sleep(10)
+    _exec_command("docker run --link {}:postgres metaaldetectievondstmeldingen-dev/postgres-checker:latest".format(DATABASE_CONTAINER_NAME))
+    # max_attempts = 40
+    # attempts = 0
+    # while not _is_db_ready() or attempts > max_attempts:
+    #     print("db not ready, waiting..")
+    #     attempts += 1
+    #     time.sleep(10)
+    #
+    # if attempts > max_attempts:
+    #     raise Exception("db not ready giving up")
 
 
 def run_migrations():
@@ -96,15 +99,15 @@ def stop_and_clean_db_container():
     _exec_command("docker stop {}; docker rm {}".format(DATABASE_CONTAINER_NAME, DATABASE_CONTAINER_NAME))
 
 
-def _is_db_ready():
-    try:
-        conn = psycopg2.connect("host=localhost user={} password={}".format(POSTGRES_USER, POSTGRES_PASSWORD))
-        conn.close()
-        return True
-
-    except psycopg2.OperationalError as ex:
-        print("Connection failed: {0}".format(ex))
-        return False
+# def _is_db_ready():
+#     try:
+#         conn = psycopg2.connect("host=localhost user={} password={}".format(POSTGRES_USER, POSTGRES_PASSWORD))
+#         conn.close()
+#         return True
+#
+#     except psycopg2.OperationalError as ex:
+#         print("Connection failed: {0}".format(ex))
+#         return False
 
 
 def _exec_command(command):
