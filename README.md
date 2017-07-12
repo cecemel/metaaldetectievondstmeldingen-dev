@@ -17,17 +17,11 @@
 ```
 git clone --recursive ...
 cd metaaldetectievondstmeldingen-dev
-mkvirtualenv metaaldetectievondstmeldingen-dev3.5 --python=python3.5
-pip install -r requirements.txt
 ```
 
 #### building the frontend
 ```
-# assumes you are in metaaldetectievondstmeldingen-dev
-cd metaaldetectievondstmeldingen/metaaldetectievondstmeldingen/static
-npm install; bower install;
-cd admin;
-npm install; bower install;
+TODO :-/
 ```
 
 ### building, migrating & init elastic, dummy data etc...
@@ -58,7 +52,6 @@ python build.py dossierdata
 - if you modify the production.ini, you will have to build the image again
 - docs need to be build automatically
 - currently, only dummy data is imported, if you want data from the db.dump -> you will need to fiddle a little with the docker files...
-- URI referencer is still not running locally
 - if you get error HTTPError similar to: "401 Client Error: Unauthorized for url": restart your docker daemon
 - scripts contain some hard coded parameters and should be cleaned
 - currently, if you change code or config in dependent services, you will have to build and run every time again
