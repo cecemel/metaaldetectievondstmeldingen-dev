@@ -11,7 +11,7 @@
 - python, python virtualenv, python virtualenvwrapper installed
 - git
 - postgres on your system
-- your development-private.ini files
+- your wildcards-private.ini files
 - npm and bower
 - pycharm enterprise edition
 
