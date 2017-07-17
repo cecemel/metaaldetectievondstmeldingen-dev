@@ -23,7 +23,7 @@ def build_db():
         os.chdir(current_path)
 
 
-def build_docker_modules(modules=[]):
+def build_docker_modules(git_user, git_pw, modules=[]):
     current_path = os.path.dirname(os.path.realpath(__file__))
     docker_files_dir = os.path.join(current_path, DEVELOPMENT_PRIVATE_FILES_FOLDER)
 
@@ -47,7 +47,7 @@ def build_docker_modules(modules=[]):
             os.chdir(target_folder)
 
             repo_image = "{}/{}:latest".format(DOCKER_REPO, folder)
-            command = "docker build -t {} .".format(repo_image)
+            command = "docker build --build-arg GITUSER={} --build-arg GITPW={} -t {} .".format(git_user, git_pw, repo_image)
             _exec_command(command)
 
         finally:
@@ -69,5 +69,16 @@ def _listdir_not_hidden(path):
 
 
 if __name__ == '__main__':
+    if len(sys.argv[1:]) < 2:
+        print("please provide username and password for OE github")
+        exit(1)
+
     build_db()
-    build_docker_modules(sys.argv[1:])
+    git_user_name = sys.argv[1]
+    git_pw = sys.argv[2]
+
+    images = []
+    if len(sys.argv[1:]) > 2:
+        images = sys.argv[3:]
+
+    build_docker_modules(git_user_name, git_pw, modules=images)
