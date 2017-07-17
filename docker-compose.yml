@@ -9,6 +9,12 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  metaaldetectievondstmeldingen-storage-provider:
+    image: metaaldetectievondstmeldingen-dev/storageprovider:latest
+    ports:
+      - "6544:6544"
+    volumes:
+      - ./data/storageprovider:/metaaldetectievondstmeldingen_store
   metaaldetectievondstmeldingen-redis:
     image: redis
     ports:
@@ -28,4 +34,5 @@ services:
     links:
      - metaaldetectievondstmeldingen-db:postgres
      - metaaldetectievondstmeldingen-redis:redis
+     - metaaldetectievondstmeldingen-storage-provider:storageprovider
 

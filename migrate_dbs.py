@@ -25,15 +25,6 @@ def start_db():
     print("wait for migration db to boot (10 secs)")
     time.sleep(10)
     _exec_command("docker run --link {}:postgres metaaldetectievondstmeldingen-dev/postgres-checker:latest".format(DATABASE_CONTAINER_NAME))
-    # max_attempts = 40
-    # attempts = 0
-    # while not _is_db_ready() or attempts > max_attempts:
-    #     print("db not ready, waiting..")
-    #     attempts += 1
-    #     time.sleep(10)
-    #
-    # if attempts > max_attempts:
-    #     raise Exception("db not ready giving up")
 
 
 def run_migrations():

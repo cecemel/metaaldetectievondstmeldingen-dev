@@ -1,3 +1,6 @@
 [submodule "metaaldetectievondsten"]
 	path = metaaldetectievondstmeldingen
 	url = https://github.com/OnroerendErfgoed/metaaldetectievondsten.git
+[submodule "storageprovider"]
+	path = storageprovider
+	url = https://github.com/OnroerendErfgoed/storageprovider.git

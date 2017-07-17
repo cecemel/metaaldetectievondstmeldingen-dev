@@ -1,4 +1,4 @@
-import os, shutil
+import os, shutil, time
 import migrate_dbs
 
 ELASTIC_INITS_FOLDER = "data-inits"
@@ -10,28 +10,26 @@ ELASTIC_DATA = "$(pwd)/data/elastic"
 STORAGE_PROVIDER_IMAGE = "metaaldetectievondstmeldingen-dev/storageprovider:latest"
 STORAGE_PROVIDER_CONTAINER_NAME = "storageprovider-init"
 STORAGE_PROVIDER_DATA = "$(pwd)/data/storageprovider"
-STORAGE_PROVIDER_DATA_MAP = "{}:/adviezen_store".format(STORAGE_PROVIDER_DATA)
+STORAGE_PROVIDER_DATA_MAP = "{}:/metaaldetectievondstmeldingen_store".format(STORAGE_PROVIDER_DATA)
 
 
-# def start_storage_provider():
-#     try:
-#         stop_and_clean_storage_provider_container()
-#     except:
-#         print("issue cleaning docker images, let's proceed and see...")
-#
-#     _exec_command("mkdir -p {}".format(STORAGE_PROVIDER_DATA))
-#     _exec_command("docker run -p '6544:6544' --name {} -v {} {}&"
-#                   .format(STORAGE_PROVIDER_CONTAINER_NAME, STORAGE_PROVIDER_DATA_MAP, STORAGE_PROVIDER_IMAGE))
-#
-#     max_attempts = 20
-#     attempts = 0
-#     while not _is_storage_provider_ready() or attempts > max_attempts:
-#         print("storage provider not ready, waiting..")
-#         attempts += 1
-#         time.sleep(10)
-#
-#     if attempts > max_attempts:
-#         raise Exception("storage provider not ready giving up")
+def start_storage_provider():
+    try:
+        stop_and_clean_storage_provider_container()
+    except:
+        print("issue cleaning docker images, let's proceed and see...")
+
+    _exec_command("mkdir -p {}".format(STORAGE_PROVIDER_DATA))
+    _exec_command("docker run -p '6544:6544' --name {} -v {} {}&"
+                  .format(STORAGE_PROVIDER_CONTAINER_NAME, STORAGE_PROVIDER_DATA_MAP, STORAGE_PROVIDER_IMAGE))
+
+    print("wait for storage provider to boot (10 secs)")
+    time.sleep(10)
+    _exec_command("docker run "
+                  "--link {}:storageprovider "
+                  "metaaldetectievondstmeldingen-dev/storageprovider-checker:latest"
+                  .format(STORAGE_PROVIDER_CONTAINER_NAME))
+
 
 
 # def start_elastic():
@@ -57,7 +55,7 @@ STORAGE_PROVIDER_DATA_MAP = "{}:/adviezen_store".format(STORAGE_PROVIDER_DATA)
 
 def run_elastic_init():
     try:
-        #start_storage_provider()
+        start_storage_provider()
         #start_elastic()
         migrate_dbs.start_db()
 
@@ -105,7 +103,7 @@ def run_elastic_init():
 
     finally:
         #stop_and_clean_elastic_container()
-        #stop_and_clean_storage_provider_container()
+        stop_and_clean_storage_provider_container()
         migrate_dbs.stop_and_clean_db_container()
 
 
@@ -118,15 +116,6 @@ def stop_and_clean_elastic_container():
     _exec_command("docker stop {}; docker rm {}".format(ELASTIC_CONTAINER_NAME, ELASTIC_CONTAINER_NAME))
 
 
-# def _is_storage_provider_ready():
-#     try:
-#         response = requests.get('http://localhost:6544')
-#         if response.status_code == 200:
-#             return True
-#     except:
-#         print("Unable to connect to storage provider")
-#     return False
-#
 #
 # def _is_elastic_ready():
 #     try:
