@@ -1,5 +1,6 @@
 import os, shutil, time
 
+CWD = os.getcwd()
 MIGRATIONS_FOLDER = "db-migrations"
 ALEMBIC_FILE = "alembic-custom.ini"
 DOCKER_FILE = "Dockerfile-migration"
@@ -7,7 +8,7 @@ DOCKER_FILE = "Dockerfile-migration"
 DOCKER_REPO = "metaaldetectievondstmeldingen-dev"
 DATABASE_IMAGE = "metaaldetectievondstmeldingen-dev/postgres:latest"
 DATABASE_CONTAINER_NAME = "metaaldetectievondstmeldingen-migration-db"
-DATABASE_DATA = "$(pwd)/data/postgres"
+DATABASE_DATA = "{}/data/postgres".format(CWD)
 DATABASE_DUMP = "db.dump"
 POSTGRES_USER = "postgres"
 POSTGRES_PASSWORD = "postgres"
