@@ -10,9 +10,6 @@ DATABASE_IMAGE = "metaaldetectievondstmeldingen-dev/postgres:latest"
 DATABASE_CONTAINER_NAME = "metaaldetectievondstmeldingen-migration-db"
 
 DATABASE_DATA = "{}/data/postgres".format(CWD)
-if os.name == 'nt':
-    DATABASE_DATA = "{}\data\postgres".format(CWD)
-
 DATABASE_DUMP = "db.dump"
 POSTGRES_USER = "postgres"
 POSTGRES_PASSWORD = "postgres"
