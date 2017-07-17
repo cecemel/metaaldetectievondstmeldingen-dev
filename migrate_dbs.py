@@ -19,7 +19,7 @@ def start_db():
     except:
         print("issue cleaning docker images, let's proceed and see...")
 
-    _exec_command("docker run -p '5432:5432' --name {} -v {}:/var/lib/postgresql/data {} &".format(DATABASE_CONTAINER_NAME,
+    _exec_command("docker run -p 5432:5432 --name {} -v {}:/var/lib/postgresql/data {} &".format(DATABASE_CONTAINER_NAME,
                                                                         DATABASE_DATA,
                                                                         DATABASE_IMAGE))
     print("wait for migration db to boot (10 secs)")
