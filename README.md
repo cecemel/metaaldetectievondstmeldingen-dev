@@ -15,7 +15,8 @@
 
 #### general setup
 ```
-git clone --recursive ...
+# assumes you have access to OE private repos
+git clone --recursive https://github.com/cecemel/metaaldetectievondstmeldingen-dev.git
 cd metaaldetectievondstmeldingen-dev
 ```
 
@@ -26,7 +27,7 @@ TODO :-/
 
 ### building, migrating & init elastic, dummy data etc...
 ```
-# assumes you are in your virtual env
+# assumes you are in folder metaaldetectievondstmeldingen-dev
 docker-compose stop; docker-compose rm -f; #not required, but cleans your working environment
 # assumes you are in metaaldetectievondstmeldingen-dev
 python build_images.py;
