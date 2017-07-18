@@ -5,7 +5,7 @@
 ### build instructions
 
 #### assumes
-- connected with vpn lm1
+- access to OE private repos
 - osx/linux environment
 - docker installed
 - python installed
