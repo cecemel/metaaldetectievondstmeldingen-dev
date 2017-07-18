@@ -18,6 +18,7 @@
 # assumes you have access to OE private repos
 git clone --recursive https://github.com/cecemel/metaaldetectievondstmeldingen-dev.git
 cd metaaldetectievondstmeldingen-dev
+# now, you have to add the development-private.ini and wildcards files on the right place, ask your colleagues for help if you don't know
 ```
 
 #### building the frontend
