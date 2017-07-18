@@ -46,7 +46,7 @@ https://blog.jetbrains.com/pycharm/2017/03/docker-compose-getting-flask-up-and-r
 
 ### rebuilding and running a dependent service
 ```
-python build.py dossierdata
+python build.py [GITHUB_USER] [GITHUB_PASS] dossierdata
 ```
 
 ### caveats-todos
