@@ -30,14 +30,14 @@ TODO :-/
 # assumes you are in folder metaaldetectievondstmeldingen-dev
 docker-compose stop; docker-compose rm -f; #not required, but cleans your working environment
 # assumes you are in metaaldetectievondstmeldingen-dev
-python build_images.py;
+python build_images.py [GITHUB_USER] [GITHUB_PASS];
 python migrate_dbs.py;
 python init_data.py;
 ```
 
 #### reset backend one liner
 ```
-docker-compose stop; docker-compose rm -f; rm -rf data/*; python build_images.py; python migrate_dbs.py; python init_data.py;
+docker-compose stop; docker-compose rm -f; rm -rf data/*; python build_images.py [GITHUB_USER] [GITHUB_PASS]; python migrate_dbs.py; python init_data.py;
 ```
 
 ### running in pycharm
