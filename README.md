@@ -5,7 +5,7 @@
 ### build instructions
 
 #### assumes
-- connected with vpn lm1
+- access to OE private repos
 - osx/linux environment
 - docker installed
 - python installed
@@ -15,8 +15,11 @@
 
 #### general setup
 ```
-git clone --recursive ...
+# assumes you have access to OE private repos
+git clone --recursive https://github.com/cecemel/metaaldetectievondstmeldingen-dev.git
 cd metaaldetectievondstmeldingen-dev
+# now, you have to add the development-private.ini and wildcards files on the right place, 
+ask your colleagues for help if you don't know
 ```
 
 #### building the frontend
@@ -26,17 +29,17 @@ TODO :-/
 
 ### building, migrating & init elastic, dummy data etc...
 ```
-# assumes you are in your virtual env
+# assumes you are in folder metaaldetectievondstmeldingen-dev
 docker-compose stop; docker-compose rm -f; #not required, but cleans your working environment
 # assumes you are in metaaldetectievondstmeldingen-dev
-python build_images.py;
+python build_images.py [GITHUB_USER] [GITHUB_PASS];
 python migrate_dbs.py;
 python init_data.py;
 ```
 
 #### reset backend one liner
 ```
-docker-compose stop; docker-compose rm -f; rm -rf data/*; python build_images.py; python migrate_dbs.py; python init_data.py;
+docker-compose stop; docker-compose rm -f; rm -rf data/*; python build_images.py [GITHUB_USER] [GITHUB_PASS]; python migrate_dbs.py; python init_data.py;
 ```
 
 ### running in pycharm
@@ -45,7 +48,8 @@ https://blog.jetbrains.com/pycharm/2017/03/docker-compose-getting-flask-up-and-r
 
 ### rebuilding and running a dependent service
 ```
-python build.py dossierdata
+# e.g.
+python build.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 ```
 
 ### caveats-todos
