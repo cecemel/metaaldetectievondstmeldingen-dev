@@ -39,7 +39,7 @@ def run_migrations():
 
         assert os.path.isdir(migrations_dir), "Expected a db-migrations dir..."
 
-        migrations_folders =_listdir_not_hidden(migrations_dir)
+        migrations_folders = _listdir_not_hidden(migrations_dir)
 
         for folder in migrations_folders:
             target_folder = os.path.join(current_path, folder)
@@ -91,17 +91,6 @@ def run_migrations():
 
 def stop_and_clean_db_container():
     _exec_command("docker stop {}; docker rm {}".format(DATABASE_CONTAINER_NAME, DATABASE_CONTAINER_NAME))
-
-
-# def _is_db_ready():
-#     try:
-#         conn = psycopg2.connect("host=localhost user={} password={}".format(POSTGRES_USER, POSTGRES_PASSWORD))
-#         conn.close()
-#         return True
-#
-#     except psycopg2.OperationalError as ex:
-#         print("Connection failed: {0}".format(ex))
-#         return False
 
 
 def _exec_command(command):

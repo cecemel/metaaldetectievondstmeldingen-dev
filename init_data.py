@@ -11,6 +11,24 @@ STORAGE_PROVIDER_IMAGE = "metaaldetectievondstmeldingen-dev/storageprovider:late
 STORAGE_PROVIDER_CONTAINER_NAME = "storageprovider-init"
 STORAGE_PROVIDER_DATA = "$(pwd)/data/storageprovider"
 STORAGE_PROVIDER_DATA_MAP = "{}:/metaaldetectievondstmeldingen_store".format(STORAGE_PROVIDER_DATA)
+REDIS_IMAGE = "redis"
+REDIS_CONTAINER_NAME = "metaaldetectievondstmeldingen-redis-init"
+
+
+def start_redis():
+    try:
+        stop_and_clean_redis_container()
+    except:
+        print("issue cleaning docker images, let's proceed and see...")
+
+    _exec_command("docker run -p '6379:6379' --name {} {} &".format(REDIS_CONTAINER_NAME, REDIS_IMAGE))
+
+    print("wait for redis to boot (10 secs)")
+    time.sleep(10)
+    _exec_command("docker run "
+                  "--link {}:redis "
+                  "metaaldetectievondstmeldingen-dev/redis-checker:latest"
+                  .format(REDIS_CONTAINER_NAME))
 
 
 def start_storage_provider():
@@ -31,32 +49,30 @@ def start_storage_provider():
                   .format(STORAGE_PROVIDER_CONTAINER_NAME))
 
 
+def start_elastic():
+    # make sure it starts clean
+    try:
+        stop_and_clean_elastic_container()
+    except:
+        print("issue cleaning docker images, let's proceed and see...")
 
-# def start_elastic():
-#     # make sure it starts clean
-#     try:
-#         stop_and_clean_elastic_container()
-#     except:
-#         print("issue cleaning docker images, let's proceed and see...")
-#
-#     _exec_command("docker run -p '9200:9200' --name {} -v {}:/usr/share/elasticsearch/data {} &".format(ELASTIC_CONTAINER_NAME,
-#                                                                                 ELASTIC_DATA,
-#                                                                                 ELASTIC_IMAGE))
-#     max_attempts = 20
-#     attempts = 0
-#     while not _is_elastic_ready() or attempts > max_attempts:
-#         print("elastic not ready, waiting..")
-#         attempts += 1
-#         time.sleep(10)
-#
-#     if attempts > max_attempts:
-#         raise Exception("elastic not ready giving up")
+    _exec_command("docker run -p '9200:9200' --name {} -v {}:/usr/share/elasticsearch/data {} &".format(ELASTIC_CONTAINER_NAME,
+                                                                                ELASTIC_DATA,
+                                                                                ELASTIC_IMAGE))
+
+    print("wait for elastic to boot (10 secs)")
+    time.sleep(10)
+    _exec_command("docker run "
+                  "--link {}:elastic "
+                  "metaaldetectievondstmeldingen-dev/elastic-checker:latest"
+                  .format(ELASTIC_CONTAINER_NAME))
 
 
 def run_elastic_init():
     try:
         start_storage_provider()
-        #start_elastic()
+        start_elastic()
+        start_redis()
         migrate_dbs.start_db()
 
         print('elastic ready, moving on...')
@@ -87,11 +103,20 @@ def run_elastic_init():
                 _exec_command("docker build -f {} -t {} .".format(DOCKER_FILE, docker_image_repo))
 
                 print("fire container and run migration")
-                #run_command = "docker run --link {}:elastic --link {}:postgres  --link {}:storageprovider "\
-                #    .format(ELASTIC_CONTAINER_NAME, migrate_dbs.DATABASE_CONTAINER_NAME,
-                #            STORAGE_PROVIDER_CONTAINER_NAME)
-                run_command = "docker run --link {}:postgres ".format(migrate_dbs.DATABASE_CONTAINER_NAME)
+                run_command = "docker run " \
+                              "--link {}:elastic " \
+                              "--link {}:postgres  " \
+                              "--link {}:storageprovider " \
+                              "--link {}:redis "\
+                    .format(ELASTIC_CONTAINER_NAME,
+                            migrate_dbs.DATABASE_CONTAINER_NAME,
+                            STORAGE_PROVIDER_CONTAINER_NAME,
+                            REDIS_CONTAINER_NAME)
                 run_command += "{}".format(docker_image_repo)
+
+                print("firing!")
+                print(run_command)
+
                 _exec_command(run_command)
 
             finally:
@@ -102,7 +127,8 @@ def run_elastic_init():
                 os.chdir(current_path)
 
     finally:
-        #stop_and_clean_elastic_container()
+        stop_and_clean_redis_container()
+        stop_and_clean_elastic_container()
         stop_and_clean_storage_provider_container()
         migrate_dbs.stop_and_clean_db_container()
 
@@ -116,15 +142,8 @@ def stop_and_clean_elastic_container():
     _exec_command("docker stop {}; docker rm {}".format(ELASTIC_CONTAINER_NAME, ELASTIC_CONTAINER_NAME))
 
 
-#
-# def _is_elastic_ready():
-#     try:
-#         response = requests.get('http://localhost:9200/_cluster/health?pretty=true').json()
-#         if response['status'] == 'green' or response['status'] == 'yellow':
-#             return True
-#     except:
-#         print("Unable to connect to elastic")
-#     return False
+def stop_and_clean_redis_container():
+    _exec_command("docker stop {}; docker rm {}".format(REDIS_CONTAINER_NAME, REDIS_CONTAINER_NAME))
 
 
 def _exec_command(command):

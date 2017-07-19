@@ -1,5 +1,19 @@
 version: "2"
 services:
+  metaaldetectievondstmeldingen-rqworker:
+    image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
+    links:
+     - metaaldetectievondstmeldingen-elastic:elastic
+     - metaaldetectievondstmeldingen-db:postgres
+     - metaaldetectievondstmeldingen-storage-provider:storageprovider
+     - metaaldetectievondstmeldingen-redis:redis
+    command: rqworker -u "http://redis:6379" metaaldetectievondstmeldingen_es_indexer
+  metaaldetectievondstmeldingen-elastic:
+    image: geosolutions/elasticsearch-plugins
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./data/elastic:/usr/share/elasticsearch/data
   metaaldetectievondstmeldingen-db:
     image: metaaldetectievondstmeldingen-dev/postgres:latest
     environment:
@@ -35,4 +49,5 @@ services:
      - metaaldetectievondstmeldingen-db:postgres
      - metaaldetectievondstmeldingen-redis:redis
      - metaaldetectievondstmeldingen-storage-provider:storageprovider
+     - metaaldetectievondstmeldingen-elastic:elastic
 

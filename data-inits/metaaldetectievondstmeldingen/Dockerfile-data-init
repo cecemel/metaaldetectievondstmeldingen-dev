@@ -1,4 +1,4 @@
 FROM metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
 
 WORKDIR "/app"
-CMD ["sh", "-c", "initialize_metaaldetectievondstmeldingen_db development.ini#metaaldetectievondstmeldingen;"]
+CMD ["sh", "-c", "initialize_metaaldetectievondstmeldingen_db development.ini#metaaldetectievondstmeldingen; initialize_metaaldetectievondstmeldingen_es development.ini#metaaldetectievondstmeldingen"]
