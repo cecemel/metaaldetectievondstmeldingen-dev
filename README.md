@@ -49,7 +49,7 @@ https://blog.jetbrains.com/pycharm/2017/03/docker-compose-getting-flask-up-and-r
 ### rebuilding and running a dependent service
 ```
 # e.g.
-python build.py [GITHUB_USER] [GITHUB_PASS] storageprovider
+python build_images.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 ```
 
 ### caveats-todos
