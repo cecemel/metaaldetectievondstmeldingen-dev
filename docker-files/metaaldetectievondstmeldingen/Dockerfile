@@ -14,6 +14,7 @@ ARG GITPW="PASSWORD_NEEDED"
 # TODO: fix this in a proper settings file
 RUN pip install -e git+https://$GITUSER:$GITPW@github.com/OnroerendErfgoed/oeauth.git@1.1.0#egg=oeauth
 RUN pip install -e git+https://$GITUSER:$GITPW@github.com/OnroerendErfgoed/pyramid_oeauth.git@1.2.0#egg=pyramid_oeauth
+RUN pip install -e git+https://$GITUSER:$GITPW@github.com/OnroerendErfgoed/pyramid_urireferencer.git@0.6.0#egg=pyramid_urireferencer
 RUN pip install -e git+https://github.com/OnroerendErfgoed/pyoes.git@0.4.7#egg=pyoes
 RUN pip install -e git+https://github.com/OnroerendErfgoed/oe_geoutils.git@0.7.2#egg=oe_geoutils
 RUN pip install -e git+https://github.com/OnroerendErfgoed/oe_utils.git@0.14.0#egg=oe_utils

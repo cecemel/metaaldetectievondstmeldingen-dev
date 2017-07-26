@@ -4,3 +4,6 @@
 [submodule "storageprovider"]
 	path = storageprovider
 	url = https://github.com/OnroerendErfgoed/storageprovider.git
+[submodule "uriregistry"]
+	path = uriregistry
+	url = https://github.com/OnroerendErfgoed/uriregistry.git

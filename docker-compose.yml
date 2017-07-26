@@ -1,5 +1,9 @@
 version: "2"
 services:
+  metaaldetectievondstmeldingen-urireferencer:
+    image: metaaldetectievondstmeldingen-dev/uriregistry:latest
+    ports:
+      - "6542:6543"
   metaaldetectievondstmeldingen-rqworker:
     image: metaaldetectievondstmeldingen-dev/metaaldetectievondstmeldingen:latest
     links:
@@ -50,4 +54,5 @@ services:
      - metaaldetectievondstmeldingen-redis:redis
      - metaaldetectievondstmeldingen-storage-provider:storageprovider
      - metaaldetectievondstmeldingen-elastic:elastic
+     - metaaldetectievondstmeldingen-urireferencer:urireferencer
 
