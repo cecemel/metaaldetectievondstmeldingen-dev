@@ -53,6 +53,7 @@ python build_images.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 ```
 
 ### some git submodule tricks
+- tutorial: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 - bringing *-dev repo up to data: git pull; git submodule update --init --recursive
 
 ### caveats-todos
