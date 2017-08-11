@@ -52,6 +52,10 @@ https://blog.jetbrains.com/pycharm/2017/03/docker-compose-getting-flask-up-and-r
 python build_images.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 ```
 
+### some git submodule tricks
+- tutorial: https://git-scm.com/book/en/v2/Git-Tools-Submodules
+- bringing *-dev repo up to data: git pull; git submodule update --init --recursive
+
 ### caveats-todos
 - if you modify the production.ini, you will have to build the image again
 - docs need to be build automatically
