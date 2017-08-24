@@ -11,7 +11,7 @@ services:
      - metaaldetectievondstmeldingen-db:postgres
      - metaaldetectievondstmeldingen-storage-provider:storageprovider
      - metaaldetectievondstmeldingen-redis:redis
-    command: rqworker -u "http://redis:6379" metaaldetectievondstmeldingen_es_indexer
+    command: rqworker -u "http://redis:6379" metaaldetectievondstmeldingen_backend_jobs
   metaaldetectievondstmeldingen-elastic:
     image: geosolutions/elasticsearch-plugins
     ports:
