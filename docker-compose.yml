@@ -1,3 +1,5 @@
+# note links are deprecated, so this is why there is no systematic use (because lazy)
+# see https://medium.com/@tristan.claverie/well-there-is-in-fact-a-simpler-solution-than-creating-a-network-do-nothing-at-all-docker-f38e93326134
 version: "2"
 services:
   metaaldetectievondstmeldingen-urireferencer:
@@ -55,4 +57,29 @@ services:
      - metaaldetectievondstmeldingen-storage-provider:storageprovider
      - metaaldetectievondstmeldingen-elastic:elastic
      - metaaldetectievondstmeldingen-urireferencer:urireferencer
+  metaaldetectievondstmeldingen-documentgenerator:
+    image: metaaldetectievondstmeldingen-dev/documentgenerator:latest
+    ports:
+     - "6547:6546"
+    volumes:
+     - ./documentgenerator/documentgenerator:/app/documentgenerator
+     - ./documentgenerator/alembic:/app/alembic
+     - ./documentgenerator/tests:/app/tests
+     - ./documentgenerator/docs:/app/docs
+     - ./documentgenerator/development.ini:/app/development.ini
+    links:
+     - metaaldetectievondstmeldingen-db:postgres
+     - metaaldetectievondstmeldingen-redis:redis
+     - metaaldetectievondstmeldingen-storage-provider:storageprovider
+     - metaaldetectievondstmeldingen-app:metaaldetectievondstmeldingen
+  metaaldetectievondstmeldingen-documentgenerator-rqworker:
+    image: metaaldetectievondstmeldingen-dev/documentgenerator:latest
+    links:
+     - metaaldetectievondstmeldingen-elastic:elastic
+     - metaaldetectievondstmeldingen-db:postgres
+     - metaaldetectievondstmeldingen-storage-provider:storageprovider
+     - metaaldetectievondstmeldingen-redis:redis
+    command: rqworker -u "http://redis:6379" documentgenerator
+
+
 

@@ -67,3 +67,8 @@ python build_images.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 - working with private pypi server is still a hack, needs a fix
 - a generic base image should be extract to speed up image build
 - clean-up scripts, docker-compose should be sufficient for all migrations
+- if you want to test the flow tied to documentgenerator, you will have
+    - to map metaaldetectievondstmeldingen-app to 127.0.0.1 in your /etc/hosts
+    - build the frontend manually ( static/admin npm install; bower install)
+    - add the template manually in the beheersinterface
+    - This is TODO, if someone can help load a template programatically would be awesome

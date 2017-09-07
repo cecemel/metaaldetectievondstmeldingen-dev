@@ -1,0 +1,22 @@
+FROM metaaldetectievondstmeldingen-dev/documentgenerator:latest
+RUN apt-get install -y postgresql-client
+
+COPY ./alembic-custom.ini /app/
+
+#########################################################################
+# uncomment line below if you want to import data from the DEV database
+# also make sure you rename db.dump[optional] to db.dump
+#COPY ./db.dump /app/
+#########################################################################
+
+ENV PGPASSWORD=postgres
+
+# Serve
+WORKDIR "/app"
+
+#########################################################################
+# uncomment line below if you want to import data from the DEV database
+# (and make sure it is the last line of this file)
+#CMD ["sh", "-c", "pg_restore -h postgres -d adviezen -U postgres -O -e -v db.dump; alembic -c alembic-custom.ini upgrade head"]
+#########################################################################
+CMD ["sh", "-c", "alembic -c alembic-custom.ini upgrade head"]

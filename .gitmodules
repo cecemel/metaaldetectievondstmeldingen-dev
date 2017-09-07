@@ -7,3 +7,6 @@
 [submodule "uriregistry"]
 	path = uriregistry
 	url = https://github.com/OnroerendErfgoed/uriregistry.git
+[submodule "documentgenerator"]
+	path = documentgenerator
+	url = https://github.com/OnroerendErfgoed/documentgenerator.git

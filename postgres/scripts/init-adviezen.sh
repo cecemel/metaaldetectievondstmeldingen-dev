@@ -46,3 +46,16 @@ for DB in "$POSTGRES_DB"; do
 		CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 EOSQL
 done
+
+# create storage provider db
+export POSTGRES_DB="documentgenerator"
+
+#create projects-db for projects_service
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+    CREATE DATABASE $POSTGRES_DB;
+    GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO $POSTGRES_USER;
+    CREATE ROLE documentgenerator_dml;
+    CREATE ROLE documentgenerator_ddl;
+    CREATE ROLE dgen_dml;
+    CREATE ROLE dgen_ddl;
+EOSQL
