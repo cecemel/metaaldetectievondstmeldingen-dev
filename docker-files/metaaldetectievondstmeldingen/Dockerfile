@@ -18,6 +18,7 @@ RUN pip install -e git+https://$GITUSER:$GITPW@github.com/OnroerendErfgoed/pyram
 RUN pip install -e git+https://github.com/OnroerendErfgoed/pyoes.git@0.4.7#egg=pyoes
 RUN pip install -e git+https://github.com/OnroerendErfgoed/oe_geoutils.git@0.7.2#egg=oe_geoutils
 RUN pip install -e git+https://github.com/OnroerendErfgoed/oe_utils.git@0.14.0#egg=oe_utils
+RUN pip install -e git+https://github.com/OnroerendErfgoed/crabpy_pyramid.git@0.6.2#egg=crabpy_pyramid
 RUN pip install -e git+https://$GITUSER:$GITPW@github.com/OnroerendErfgoed/storageprovider-client.git@2.3.0#egg=storageprovider-client
 RUN pip install -r requirements.txt
 RUN pip install -r requirements-dev.txt
