@@ -2,6 +2,10 @@
 # see https://medium.com/@tristan.claverie/well-there-is-in-fact-a-simpler-solution-than-creating-a-network-do-nothing-at-all-docker-f38e93326134
 version: "2"
 services:
+  smtp:
+      image: namshi/smtp
+      ports:
+        - "25:25"
   metaaldetectievondstmeldingen-urireferencer:
     image: metaaldetectievondstmeldingen-dev/uriregistry:latest
     ports:
