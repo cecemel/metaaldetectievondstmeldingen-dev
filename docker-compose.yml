@@ -2,6 +2,10 @@
 # see https://medium.com/@tristan.claverie/well-there-is-in-fact-a-simpler-solution-than-creating-a-network-do-nothing-at-all-docker-f38e93326134
 version: "2"
 services:
+  static_map_generator:
+      image: onroerenderfgoed/static_map_generator:latest
+      ports:
+        - "6548:6555"
   smtp:
       image: namshi/smtp
       ports:
@@ -71,6 +75,7 @@ services:
      - ./documentgenerator/tests:/app/tests
      - ./documentgenerator/docs:/app/docs
      - ./documentgenerator/development.ini:/app/development.ini
+     - ./documentgenerator/production.ini:/app/production.ini
     links:
      - metaaldetectievondstmeldingen-db:postgres
      - metaaldetectievondstmeldingen-redis:redis
