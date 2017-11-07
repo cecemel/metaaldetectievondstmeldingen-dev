@@ -56,6 +56,7 @@ python build_images.py [GITHUB_USER] [GITHUB_PASS] storageprovider
 - tutorial: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 - some good submodule SO: https://stackoverflow.com/questions/1030169/easy-way-to-pull-latest-of-all-git-submodules
 - bringing *-dev repo up to data: git pull; git submodule update --init --recursive
+- if new module is added: git submodule update --init 
 
 ### caveats-todos
 - on slow networks, you'll might have to build a couple of times (2,3) again, because some scripts are not robust. needs fix
