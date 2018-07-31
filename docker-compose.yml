@@ -3,9 +3,12 @@
 version: "2"
 services:
   static_map_generator:
-      image: onroerenderfgoed/static_map_generator:latest
+      image: metaaldetectievondstmeldingen-dev/static_map_generator:latest
       ports:
         - "6548:6555"
+      volumes:
+        - ./static_map_generator/static_map_generator:/app/static_map_generator
+        - ./static_map_generator/development-private.ini:/app/development-private.ini
   smtp:
       image: namshi/smtp
       ports:

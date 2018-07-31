@@ -10,3 +10,6 @@
 [submodule "documentgenerator"]
 	path = documentgenerator
 	url = https://github.com/OnroerendErfgoed/documentgenerator.git
+[submodule "static_map_generator"]
+	path = static_map_generator
+	url = git@github.com:OnroerendErfgoed/static_map_generator.git
